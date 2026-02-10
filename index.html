@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для тебя</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, 
+                #FF9A9E 0%, 
+                #FAD0C4 25%, 
+                #A1C4FD 50%, 
+                #C2E9FB 75%, 
+                #FFD1FF 100%);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Cormorant Garamond', serif;
+            padding: 20px;
+        }
+        
+        #intro-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3em;
+            font-weight: 600;
+            color: #000000;
+            text-align: center;
+            transition: all 1s ease;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+        }
+        
+        #changing-text {
+            font-size: 4em;
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            transition: all 0.8s ease;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            #intro-text {
+                font-size: 2.5em;
+            }
+            
+            #changing-text {
+                font-size: 2.8em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #intro-text {
+                font-size: 2em;
+            }
+            
+            #changing-text {
+                font-size: 2.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="intro-text">солнце, это слова посвящены тебе</div>
+    <div id="changing-text"></div>
+    
+    <script>
+        const texts = [
+            "удивительная", "внимательная", "красивая", "заботливая", 
+            "милая", "прекрасная", "умная", "шикарная", "обалденная", 
+            "очаровывающая", "любимая", "весёлая", "немная", "яркая", "прелестная", 
+            "приятная", "сладкая", "ангельская", "добрая", "бесподобная", 
+            "волшебная", "лучшая", "крутышка", "единственная", "искренняя", 
+            "ласковая", "романтичная", "великолепная", "внимательная", 
+            "страстная", "игривая", "безумная", "симпатичная", "изящная", 
+            "талантливая", "элегантная", "чуткая", "отзывчивая", "уникальная", 
+            "смелая", "уверенная", "особенная", "изумительная", "настоящая", 
+            "обязательная", "кокетливая", "теплая", "энергичная", 
+            "неотразимая", "неописуемая", "грациозная", "сказочная", 
+            "немая", "изысканная", "мечтательная", "безупречная", "ваваще", 
+            "честная", "улыбчивая", "ненаглядная", "цветущая", "гармоничная", 
+            "ослепительная", "загадочная", "честная", "неповторимая", 
+            "необычная", "значимая", "волшебная", "чуткая", "открытая", 
+            "горячая", "ухоженная", "божественная", "отпадная", "манящая", 
+            "мечтательная", "восторженная", "пылкая", "феерическая", 
+            "ненаглядная", "чарующая", "душевная", "лиричная", "обожаемая", 
+            "огненная", "неземная", "необычная", "потрясная", "ранимая", 
+            "способная", "фееричная", "солнечная", "мягкая", "деликатная", 
+            "обалденная", "стройная", "обольстительная", "грациозная", 
+            "весёлая", "энергичная", "креативная", "стильная", "тактичная", 
+            "романтичная", "разносторонняя", "сказочная", "симпатичная", 
+            "пылкая", "единственная", "немая", "непредсказуемая", 
+            "загадочная", "цветущая", "гармоничная", "отзывчивая", 
+            "скромная", "изысканная", "отпадная", "искренняя", 
+            "дружелюбная", "понимающая", "ароматная", "восторженная", 
+            "соблазнительная", "радостная", "улыбчивая", 
+            "застенчивая", "занимательная", "честная", "возбуждающая", 
+            "чистосердечная", "игривая", "офигительная", 
+            "целеустремленная", "необходимая", "сказочная", "балденная", 
+            "трогательная", "любимая", "прикольная", "самая-самая-самая"
+        ];
+
+        const introText = document.getElementById('intro-text');
+        const changingText = document.getElementById('changing-text');
+        let currentIndex = 0;
+        let showWords = false;
+
+        // Показываем вступительный текст на 3 секунды
+        setTimeout(() => {
+            introText.style.opacity = '0';
+            
+            setTimeout(() => {
+                introText.style.display = 'none';
+                changingText.style.opacity = '1';
+                changingText.textContent = texts[currentIndex];
+                showWords = true;
+            }, 1000);
+        }, 3000);
+
+        function changeText() {
+            if (!showWords) return;
+            
+            changingText.style.opacity = '0';
+            changingText.style.transform = 'translate(-50%, -40%)';
+            
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % texts.length;
+                changingText.textContent = texts[currentIndex];
+                
+                changingText.style.opacity = '1';
+                changingText.style.transform = 'translate(-50%, -50%)';
+            }, 400);
+        }
+
+        // Начинаем менять слова через 4 секунды (3 сек вступление + 1 сек на исчезновение)
+        setTimeout(() => {
+            setInterval(changeText, 3000);
+        }, 4000);
+    </script>
+</body>
+</html>
